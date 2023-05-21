@@ -97,5 +97,8 @@
   <ItemGroup>
     <None Include="Resources\사진.PNG" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\비트.PNG" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
