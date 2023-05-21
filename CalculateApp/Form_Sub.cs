@@ -63,7 +63,7 @@ namespace CalculateApp
             Application.Exit();
         }
 
-        private void button_BitClick(object sender, EventArgs e)
+        private void button_BitClick(object sender, EventArgs e) //비트키패드 입력
         {
  
             Button button = (Button)sender;
@@ -79,8 +79,30 @@ namespace CalculateApp
                 m_arrBit[Convert.ToInt32(button.Tag.ToString())] = 0;
             }
 
+            SetArr();
+
             SetBit(m_arrBit);
 
+        }
+
+        private void SetArr() //4byte 배열 처리할 함수
+        {
+            m_arrBit[0] = Convert.ToInt32(button_BitZero.Text);
+            m_arrBit[1] = Convert.ToInt32(button_BitOne.Text);
+            m_arrBit[2] = Convert.ToInt32(button_BitTwo.Text);
+            m_arrBit[3] = Convert.ToInt32(button_BitThree.Text);
+            m_arrBit[4] = Convert.ToInt32(button_BitFour.Text);
+            m_arrBit[5] = Convert.ToInt32(button_BitFive.Text);
+            m_arrBit[6] = Convert.ToInt32(button_BitSix.Text);
+            m_arrBit[7] = Convert.ToInt32(button_BitSeven.Text);
+            m_arrBit[8] = Convert.ToInt32(button_BitEight.Text);
+            m_arrBit[9] = Convert.ToInt32(button_BitNine.Text);
+            m_arrBit[10] = Convert.ToInt32(button_BitTen.Text);
+            m_arrBit[11] = Convert.ToInt32(button_BitEleven.Text);
+            m_arrBit[12] = Convert.ToInt32(button_BitTwelve.Text);
+            m_arrBit[13] = Convert.ToInt32(button_BitThirteen.Text);
+            m_arrBit[14] = Convert.ToInt32(button_BitFourteen.Text);
+            m_arrBit[15] = Convert.ToInt32(button_BitFifteen.Text);
         }
 
         private void SetBit(int[] arr)
@@ -177,18 +199,300 @@ namespace CalculateApp
 
         private void getBit(string strNum)
         {
-            int[] arrBit;
+            int[] arrBit = new int[4];
+
+            int[] arrBit1 = new int[4];
+            int[] arrBit2 = new int[4];
+            int[] arrBit3 = new int[4];
+            int[] arrBit4 = new int[4];
+
+            int ntemp1;
+            int ntemp2;
+            int ntemp3;
+            int ntemp4;
 
             string strHex;
+
+            string strHex1;
+            string strHex2;
+            string strHex3;
+            string strHex4;
+
+            string nHex1;
+            string nHex2;
+            string nHex3;
+            string nHex4;
+
             int nDec;
 
             switch (m_nMode)
             {
                 case 1:
-                    strNum
+                    strHex= string.Format("{0:X}", strNum);
+
+                    if (strHex.Length == 1)
+                    {
+                        ntemp4=Convert.ToInt32(strHex, 16);
+                        nHex4 =Convert.ToString(ntemp4, 2);
+                        nHex4 = nHex4.PadLeft(4, '0');
+
+                        button_BitZero.Text = Convert.ToString(nHex4[3]);
+                        button_BitOne.Text = Convert.ToString(nHex4[2]);
+                        button_BitTwo.Text = Convert.ToString(nHex4[1]);
+                        button_BitThree.Text = Convert.ToString(nHex4[0]);
+
+                        button_BitFour.Text = "0";
+                        button_BitFive.Text = "0";
+                        button_BitSix.Text = "0";
+                        button_BitSeven.Text = "0";
+
+                        button_BitEight.Text = "0";
+                        button_BitNine.Text = "0";
+                        button_BitTen.Text = "0";
+                        button_BitEleven.Text = "0";
+
+                        button_BitTwelve.Text = "0";
+                        button_BitThirteen.Text = "0";
+                        button_BitFourteen.Text = "0";
+                        button_BitFifteen.Text = "0";
+
+                    }
+                    else if (strHex.Length == 2)
+                    {
+                        strHex4 = strHex.ToString().Substring(strHex.ToString().Length - 1, 1);
+                        ntemp4 = Convert.ToInt32(strHex4, 16);
+                        nHex4 = Convert.ToString(ntemp4, 2);
+                        nHex4 = nHex4.PadLeft(4, '0');
+
+                        strHex3 = strHex.ToString().Substring(strHex.ToString().Length - 2, 1);
+                        ntemp3 = Convert.ToInt32(strHex3, 16);
+                        nHex3 = Convert.ToString(ntemp3, 2);
+                        nHex3 = nHex3.PadLeft(4, '0');
+
+                        button_BitZero.Text = Convert.ToString(nHex4[3]);
+                        button_BitOne.Text = Convert.ToString(nHex4[2]);
+                        button_BitTwo.Text = Convert.ToString(nHex4[1]);
+                        button_BitThree.Text = Convert.ToString(nHex4[0]);
+
+                        button_BitFour.Text = Convert.ToString(nHex3[3]);
+                        button_BitFive.Text = Convert.ToString(nHex3[2]);
+                        button_BitSix.Text = Convert.ToString(nHex3[1]);
+                        button_BitSeven.Text = Convert.ToString(nHex3[0]);
+
+                        button_BitEight.Text = "0";
+                        button_BitNine.Text = "0";
+                        button_BitTen.Text = "0";
+                        button_BitEleven.Text = "0";
+
+                        button_BitTwelve.Text = "0";
+                        button_BitThirteen.Text = "0";
+                        button_BitFourteen.Text = "0";
+                        button_BitFifteen.Text = "0";
+
+                    }
+                    else if (strHex.Length == 3)
+                    {
+                        strHex4 = strHex.ToString().Substring(strHex.ToString().Length - 1, 1);
+                        ntemp4 = Convert.ToInt32(strHex4, 16);
+                        nHex4 = Convert.ToString(ntemp4, 2);
+                        nHex4 = nHex4.PadLeft(4, '0');
+
+                        strHex3 = strHex.ToString().Substring(strHex.ToString().Length - 2, 1);
+                        ntemp3 = Convert.ToInt32(strHex3, 16);
+                        nHex3 = Convert.ToString(ntemp3, 2);
+                        nHex3 = nHex3.PadLeft(4, '0');
+
+                        strHex2 = strHex.ToString().Substring(strHex.ToString().Length - 3, 1);
+                        ntemp2 = Convert.ToInt32(strHex2, 16);
+                        nHex2 = Convert.ToString(ntemp2, 2);
+                        nHex2 = nHex2.PadLeft(4, '0');
+
+                        button_BitZero.Text = Convert.ToString(nHex4[3]);
+                        button_BitOne.Text = Convert.ToString(nHex4[2]);
+                        button_BitTwo.Text = Convert.ToString(nHex4[1]);
+                        button_BitThree.Text = Convert.ToString(nHex4[0]);
+
+                        button_BitFour.Text = Convert.ToString(nHex3[3]);
+                        button_BitFive.Text = Convert.ToString(nHex3[2]);
+                        button_BitSix.Text = Convert.ToString(nHex3[1]);
+                        button_BitSeven.Text = Convert.ToString(nHex3[0]);
+
+                        button_BitEight.Text = Convert.ToString(nHex2[3]);
+                        button_BitNine.Text = Convert.ToString(nHex2[2]);
+                        button_BitTen.Text = Convert.ToString(nHex2[1]);
+                        button_BitEleven.Text = Convert.ToString(nHex2[0]);
+
+                        button_BitTwelve.Text = "0";
+                        button_BitThirteen.Text = "0";
+                        button_BitFourteen.Text = "0";
+                        button_BitFifteen.Text = "0";
+                    }
+                    else if(strHex.Length==4)
+                    {
+                        strHex4 = strHex.ToString().Substring(strHex.ToString().Length - 1, 1);
+                        ntemp4 = Convert.ToInt32(strHex4, 16);
+                        nHex4 = Convert.ToString(ntemp4, 2);
+                        nHex4 = nHex4.PadLeft(4, '0');
+
+                        strHex3 = strHex.ToString().Substring(strHex.ToString().Length - 2, 1);
+                        ntemp3 = Convert.ToInt32(strHex3, 16);
+                        nHex3 = Convert.ToString(ntemp3, 2);
+                        nHex3 = nHex3.PadLeft(4, '0');
+
+                        strHex2 = strHex.ToString().Substring(strHex.ToString().Length - 3, 1);
+                        ntemp2 = Convert.ToInt32(strHex2, 16);
+                        nHex2 = Convert.ToString(ntemp2, 2);
+                        nHex2 = nHex2.PadLeft(4, '0');
+
+                        strHex1 = strHex.ToString().Substring(strHex.ToString().Length - 4, 1);
+                        ntemp1 = Convert.ToInt32(strHex1, 16);
+                        nHex1 = Convert.ToString(ntemp1, 2);
+                        nHex1 = nHex1.PadLeft(4, '0');
+
+                        button_BitZero.Text = Convert.ToString(nHex4[3]);
+                        button_BitOne.Text = Convert.ToString(nHex4[2]);
+                        button_BitTwo.Text = Convert.ToString(nHex4[1]);
+                        button_BitThree.Text = Convert.ToString(nHex4[0]);
+
+                        button_BitFour.Text = Convert.ToString(nHex3[3]);
+                        button_BitFive.Text = Convert.ToString(nHex3[2]);
+                        button_BitSix.Text = Convert.ToString(nHex3[1]);
+                        button_BitSeven.Text = Convert.ToString(nHex3[0]);
+
+                        button_BitEight.Text = Convert.ToString(nHex2[3]);
+                        button_BitNine.Text = Convert.ToString(nHex2[2]);
+                        button_BitTen.Text = Convert.ToString(nHex2[1]);
+                        button_BitEleven.Text = Convert.ToString(nHex2[0]);
+
+                        button_BitTwelve.Text = Convert.ToString(nHex1[3]);
+                        button_BitThirteen.Text = Convert.ToString(nHex1[2]);
+                        button_BitFourteen.Text = Convert.ToString(nHex1[1]);
+                        button_BitFifteen.Text = Convert.ToString(nHex1[0]);
+                    }
+                    else{
+                        return;
+                    }
 
                     break;
                 case 2:
+
+                    nDec = Convert.ToInt32(strNum.Replace(",", ""));
+
+                    strHex = nDec.ToString("X");
+
+                    if (strHex.Length == 1)
+                    {
+                        ntemp4 = Convert.ToInt32(strHex, 16);
+                        nHex4 = Convert.ToString(ntemp4, 2);
+                        nHex4 = nHex4.PadLeft(4, '0');
+
+                        button_BitZero.Text = Convert.ToString(nHex4[3]);
+                        button_BitOne.Text = Convert.ToString(nHex4[2]);
+                        button_BitTwo.Text = Convert.ToString(nHex4[1]);
+                        button_BitThree.Text = Convert.ToString(nHex4[0]);
+
+                    }
+                    else if (strHex.Length == 2)
+                    {
+                        strHex4 = strHex.ToString().Substring(strHex.ToString().Length - 1, 1);
+                        ntemp4 = Convert.ToInt32(strHex4, 16);
+                        nHex4 = Convert.ToString(ntemp4, 2);
+                        nHex4 = nHex4.PadLeft(4, '0');
+
+                        strHex3 = strHex.ToString().Substring(strHex.ToString().Length - 2, 1);
+                        ntemp3 = Convert.ToInt32(strHex3, 16);
+                        nHex3 = Convert.ToString(ntemp3, 2);
+                        nHex3 = nHex3.PadLeft(4, '0');
+
+                        button_BitZero.Text = Convert.ToString(nHex4[3]);
+                        button_BitOne.Text = Convert.ToString(nHex4[2]);
+                        button_BitTwo.Text = Convert.ToString(nHex4[1]);
+                        button_BitThree.Text = Convert.ToString(nHex4[0]);
+
+                        button_BitFour.Text = Convert.ToString(nHex3[3]);
+                        button_BitFive.Text = Convert.ToString(nHex3[2]);
+                        button_BitSix.Text = Convert.ToString(nHex3[1]);
+                        button_BitSeven.Text = Convert.ToString(nHex3[0]);
+
+                    }
+                    else if (strHex.Length == 3)
+                    {
+                        strHex4 = strHex.ToString().Substring(strHex.ToString().Length - 1, 1);
+                        ntemp4 = Convert.ToInt32(strHex4, 16);
+                        nHex4 = Convert.ToString(ntemp4, 2);
+                        nHex4 = nHex4.PadLeft(4, '0');
+
+                        strHex3 = strHex.ToString().Substring(strHex.ToString().Length - 2, 1);
+                        ntemp3 = Convert.ToInt32(strHex3, 16);
+                        nHex3 = Convert.ToString(ntemp3, 2);
+                        nHex3 = nHex3.PadLeft(4, '0');
+
+                        strHex2 = strHex.ToString().Substring(strHex.ToString().Length - 3, 1);
+                        ntemp2 = Convert.ToInt32(strHex2, 16);
+                        nHex2 = Convert.ToString(ntemp2, 2);
+                        nHex2 = nHex2.PadLeft(4, '0');
+
+                        button_BitZero.Text = Convert.ToString(nHex4[3]);
+                        button_BitOne.Text = Convert.ToString(nHex4[2]);
+                        button_BitTwo.Text = Convert.ToString(nHex4[1]);
+                        button_BitThree.Text = Convert.ToString(nHex4[0]);
+
+                        button_BitFour.Text = Convert.ToString(nHex3[3]);
+                        button_BitFive.Text = Convert.ToString(nHex3[2]);
+                        button_BitSix.Text = Convert.ToString(nHex3[1]);
+                        button_BitSeven.Text = Convert.ToString(nHex3[0]);
+
+                        button_BitEight.Text = Convert.ToString(nHex2[3]);
+                        button_BitNine.Text = Convert.ToString(nHex2[2]);
+                        button_BitTen.Text = Convert.ToString(nHex2[1]);
+                        button_BitEleven.Text = Convert.ToString(nHex2[0]);
+                    }
+                    else if (strHex.Length == 4)
+                    {
+                        strHex4 = strHex.ToString().Substring(strHex.ToString().Length - 1, 1);
+                        ntemp4 = Convert.ToInt32(strHex4, 16);
+                        nHex4 = Convert.ToString(ntemp4, 2);
+                        nHex4 = nHex4.PadLeft(4, '0');
+
+                        strHex3 = strHex.ToString().Substring(strHex.ToString().Length - 2, 1);
+                        ntemp3 = Convert.ToInt32(strHex3, 16);
+                        nHex3 = Convert.ToString(ntemp3, 2);
+                        nHex3 = nHex3.PadLeft(4, '0');
+
+                        strHex2 = strHex.ToString().Substring(strHex.ToString().Length - 3, 1);
+                        ntemp2 = Convert.ToInt32(strHex2, 16);
+                        nHex2 = Convert.ToString(ntemp2, 2);
+                        nHex2 = nHex2.PadLeft(4, '0');
+
+                        strHex1 = strHex.ToString().Substring(strHex.ToString().Length - 4, 1);
+                        ntemp1 = Convert.ToInt32(strHex1, 16);
+                        nHex1 = Convert.ToString(ntemp1, 2);
+                        nHex1 = nHex1.PadLeft(4, '0');
+
+                        button_BitZero.Text = Convert.ToString(nHex4[3]);
+                        button_BitOne.Text = Convert.ToString(nHex4[2]);
+                        button_BitTwo.Text = Convert.ToString(nHex4[1]);
+                        button_BitThree.Text = Convert.ToString(nHex4[0]);
+
+                        button_BitFour.Text = Convert.ToString(nHex3[3]);
+                        button_BitFive.Text = Convert.ToString(nHex3[2]);
+                        button_BitSix.Text = Convert.ToString(nHex3[1]);
+                        button_BitSeven.Text = Convert.ToString(nHex3[0]);
+
+                        button_BitEight.Text = Convert.ToString(nHex2[3]);
+                        button_BitNine.Text = Convert.ToString(nHex2[2]);
+                        button_BitTen.Text = Convert.ToString(nHex2[1]);
+                        button_BitEleven.Text = Convert.ToString(nHex2[0]);
+
+                        button_BitTwelve.Text = Convert.ToString(nHex1[3]);
+                        button_BitThirteen.Text = Convert.ToString(nHex1[2]);
+                        button_BitFourteen.Text = Convert.ToString(nHex1[1]);
+                        button_BitFifteen.Text = Convert.ToString(nHex1[0]);
+                    }
+                    else
+                    {
+                        return;
+                    }
 
                     break;
             }
@@ -200,7 +504,7 @@ namespace CalculateApp
 
             return nResult;
         }
-        private int sh_Opt(int nPri, int nSec)
+        private int Rsh_Opt(int nPri, int nSec)
         {
             int nResult = int.MinValue;
 
@@ -262,6 +566,7 @@ namespace CalculateApp
 
             m_strNumber = this.richTextBox_Number.Text + button.Text;
 
+
             getBit(m_strNumber);
 
             switch (m_nMode)
@@ -271,10 +576,21 @@ namespace CalculateApp
                 
                     m_nNumber = Convert.ToInt32(m_strHexNumber,16);
 
+                    if (m_strHexNumber.Length > 4)
+                    {
+                        return;
+                    }
+
                     m_nSnumber = Convert.ToInt32(m_nNumber);
+
+                    if (m_nSnumber > short.MaxValue)
+                    {
+                        m_nSnumber = m_nSnumber - (short.MaxValue - short.MinValue) - 1;
+                    }
 
                     this.richTextBox_Number.Text = m_strHexNumber.ToString();
                     this.label_Hex.Text = m_strHexNumber.ToString();
+
 
                     
                     if (m_nSnumber >= 1000 || m_nSnumber <= -1000)
@@ -285,20 +601,16 @@ namespace CalculateApp
                     {
                         this.label_Dec.Text = m_nSnumber.ToString();
                     }
-               
-                    if (m_nNumber >= 1000 || m_nNumber <= -1000)
-                    {
-                        this.label_Dec.Text = string.Format("{0:#,###}", m_nNumber);
-                    }
-                    else
-                    {
-                        this.label_Dec.Text = m_nNumber.ToString();
-                    }
-                   
+                    
                     break;
                 case 2:
 
                     m_nNumber = Convert.ToInt32(m_strNumber.Replace(",", ""));
+
+                    if (m_nNumber > short.MaxValue)
+                    {
+                        return;
+                    }
                     
                     m_strHexNumber = string.Format("{0:X}", m_nNumber);
             
@@ -313,7 +625,7 @@ namespace CalculateApp
                         this.label_Dec.Text = m_nNumber.ToString();
                     }                                  
                     this.label_Hex.Text = m_strHexNumber;
-            
+                  
             
                     break;
                 default:
@@ -438,15 +750,30 @@ namespace CalculateApp
                 case "+":
                     m_nRnum = m_nFnum + m_nSnum;
 
+                    if (m_nRnum > short.MaxValue)
+                    {
+                        m_nRnum = m_nRnum - (short.MaxValue - short.MinValue) - 1;
+                    }
+
                     break;
                 case "-":
 
                     m_nRnum = m_nFnum - m_nSnum;
 
+                    if (m_nRnum > short.MaxValue)
+                    {
+                        m_nRnum = m_nRnum - (short.MaxValue - short.MinValue) - 1;
+                    }
+
                     break;
                 case "X":
                     m_nRnum = m_nFnum * m_nSnum;
-                    
+
+                    if (m_nRnum > short.MaxValue)
+                    {
+                        m_nRnum = m_nRnum - (short.MaxValue - short.MinValue) - 1;
+                    }
+
                     break;
                 case "/":
 
@@ -457,6 +784,11 @@ namespace CalculateApp
                     else
                     {
                         m_nRnum =m_nFnum / m_nSnum;
+
+                        if (m_nRnum > short.MaxValue)
+                        {
+                            m_nRnum = m_nRnum - (short.MaxValue - short.MinValue) - 1;
+                        }
                     }
                    
 
@@ -464,42 +796,97 @@ namespace CalculateApp
 
                 case "%":
                     m_nRnum = m_nFnum % m_nSnum;
+
+                    if (m_nRnum > short.MaxValue)
+                    {
+                        m_nRnum = m_nRnum - (short.MaxValue - short.MinValue) - 1;
+                    }
                     break;
 
                 case "AND":
                     m_nRnum = m_nFnum & m_nSnum;
-                    
+
+                    if (m_nRnum > short.MaxValue)
+                    {
+                        m_nRnum = m_nRnum - (short.MaxValue - short.MinValue) - 1;
+                    }
+
                     break;
 
                 case "OR":
                     m_nRnum = m_nFnum | m_nSnum;
+
+                    if (m_nRnum > short.MaxValue)
+                    {
+                        m_nRnum = m_nRnum - (short.MaxValue - short.MinValue) - 1;
+                    }
+
                     break;
 
                 case "NOT":
                     m_nRnum = ~m_nSnum;
+
+                    if (m_nRnum > short.MaxValue)
+                    {
+                        m_nRnum = m_nRnum - (short.MaxValue - short.MinValue) - 1;
+                    }
+
                     break;
                 case "NAND":
                     m_nRnum = ~(m_nFnum & m_nSnum);
+                    if (m_nRnum > short.MaxValue)
+                    {
+                        m_nRnum = m_nRnum - (short.MaxValue - short.MinValue) - 1;
+                    }
                     break;
 
                 case "NOR":
                     m_nRnum = ~(m_nFnum | m_nSnum);
+
+                    if (m_nRnum > short.MaxValue)
+                    {
+                        m_nRnum = m_nRnum - (short.MaxValue - short.MinValue) - 1;
+                    }
                     break;
                 case "XOR":
                     m_nRnum = m_nFnum ^ m_nSnum;
+                    if (m_nRnum > short.MaxValue)
+                    {
+                        m_nRnum = m_nRnum - (short.MaxValue - short.MinValue) - 1;
+                    }
                     break;
            
-                case "<<":                   
+                case "<<":
+                    //m_nRnum = Lsh_Opt(m_nFnum, m_nSnum);
                     m_nRnum = m_nFnum << m_nSnum;
+                    if (m_nRnum > short.MaxValue)
+                    {
+                        m_nRnum = m_nRnum - (short.MaxValue - short.MinValue) - 1;
+                    }
                     break;
                 case ">>":
+                    //m_nRnum = Rsh_Opt(m_nFnum, m_nSnum);
                     m_nRnum = m_nFnum >> m_nSnum;
+                    if (m_nRnum > short.MaxValue)
+                    {
+                        m_nRnum = m_nRnum - (short.MaxValue - short.MinValue) - 1;
+                    }
                     break;
                 default:
                     break;
 
             }
 
+            if (m_nMode == 1)
+            {
+                getBit(m_nRnum.ToString("X"));
+            }
+            else
+            {
+                getBit(m_nRnum.ToString());
+            }
+            
+            
             printResult();
             m_nFnum = m_nRnum;
             m_nSnum = int.MinValue;
@@ -541,10 +928,60 @@ namespace CalculateApp
 
         private void button_BackClick(object sender, EventArgs e)
         {
+            string strNum;
+            int nNum;
+
             if (richTextBox_Memory.Text != "0" && m_strOperate != "=" && richTextBox_Number.Text.Length > 0)
             {
                 richTextBox_Number.Text = richTextBox_Number.Text.Substring(0, richTextBox_Number.Text.Length - 1);
             }
+            else
+            {
+                richTextBox_Number.Text = "0";
+            }
+
+            if (m_nMode == 1)
+            {
+                nNum = Convert.ToInt32(this.richTextBox_Number.Text, 16);
+                this.richTextBox_Number.Text = nNum.ToString("X");
+                this.label_Hex.Text = nNum.ToString("X");
+                if (nNum >= 1000)
+                {
+                    this.label_Dec.Text = string.Format("{0:#,###}", nNum);
+                }
+                else
+                {
+                    this.label_Dec.Text = nNum.ToString();
+                }
+            }
+            else
+            {
+                nNum = Convert.ToInt32(this.richTextBox_Number.Text);
+                if (nNum >= 1000)
+                {
+                    this.richTextBox_Number.Text = string.Format("{0:#,###}", nNum);
+                    this.label_Dec.Text = string.Format("{0:#,###}", nNum);
+                    this.label_Hex.Text = nNum.ToString("X");
+                }
+                else
+                {
+                    this.richTextBox_Number.Text = m_nRnum.ToString();
+                    this.label_Dec.Text = string.Format("{0:#,###}", nNum);
+                    this.label_Hex.Text = nNum.ToString("X");
+                }
+            }
+
+            if (m_nMode == 1)
+            {
+                getBit(string.Format("{0:X}", richTextBox_Number.Text));
+            }
+            else
+            {
+                getBit(richTextBox_Number.Text);
+            }
+            
+
+            
         }
 
         private void Button_CClick(object sender, EventArgs e)
@@ -562,6 +999,26 @@ namespace CalculateApp
             this.m_bCompleteFlag = false;
             this.label_Dec .Text= string.Empty;
             this.label_Hex.Text = string.Empty;
+
+            button_BitZero.Text = "0";
+            button_BitOne.Text = "0";
+            button_BitTwo.Text = "0";
+            button_BitThree.Text = "0";
+
+            button_BitFour.Text = "0";
+            button_BitFive.Text = "0";
+            button_BitSix.Text = "0";
+            button_BitSeven.Text = "0";
+
+            button_BitEight.Text = "0";
+            button_BitNine.Text = "0";
+            button_BitTen.Text = "0";
+            button_BitEleven.Text = "0";
+
+            button_BitTwelve.Text = "0";
+            button_BitThirteen.Text = "0";
+            button_BitFourteen.Text = "0";
+            button_BitFifteen.Text = "0";
         }
 
 
@@ -595,7 +1052,7 @@ namespace CalculateApp
             }
         }
 
-        private void Form_Sub_Load(object sender, EventArgs e)
+        private void Form_Sub_Load(object sender, EventArgs e) //프로그래머용 계산기 불러올시
         {
             switch (m_nMode)
             {
