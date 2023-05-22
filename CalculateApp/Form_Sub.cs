@@ -179,21 +179,21 @@ namespace CalculateApp
                 nDec = nDec-(short.MaxValue-short.MinValue)-1;
             }
 
-            
-            this.label_Hex.Text = string.Format("{0:X}", strHex);
+            this.label_Hex.Text = strHex;
+            this.richTextBox_Number.Text = this.label_Hex.Text;
 
-            if(nDec>=1000 || nDec <= -1000)
-            {
-                this.richTextBox_Number.Text = string.Format("{0:#,###}", nDec);
+            if (nDec >= 1000 || nDec <= -1000)
+            {            
                 this.label_Dec.Text = string.Format("{0:#,###}", nDec);
 
             }
             else
-            {
-                this.richTextBox_Number.Text = nDec.ToString();
+            {              
                 this.label_Dec.Text = nDec.ToString();
 
             }
+
+            m_nNumber = Convert.ToInt32(this.label_Hex.Text, 16);
 
         }
 
@@ -229,6 +229,8 @@ namespace CalculateApp
             {
                 case 1:
                     strHex= string.Format("{0:X}", strNum);
+                    strHex = strHex.PadLeft(8, '0');
+                    strHex = strHex.Substring(4, 4);
 
                     if (strHex.Length == 1)
                     {
@@ -379,6 +381,8 @@ namespace CalculateApp
                     nDec = Convert.ToInt32(strNum.Replace(",", ""));
 
                     strHex = nDec.ToString("X");
+                    strHex = strHex.PadLeft(8, '0');
+                    strHex = strHex.Substring(4, 4);
 
                     if (strHex.Length == 1)
                     {
@@ -500,18 +504,131 @@ namespace CalculateApp
 
         private int Lsh_Opt(int nPri, int nSec)
         {
-            int nResult=int.MinValue;
+            string strResult;
+            string strBinPri;
 
-            return nResult;
+            int[] arrHex = new int[16];
+
+            strBinPri = Convert.ToString(nPri, 2);
+            strBinPri = strBinPri.PadLeft(16, '0');
+
+            for (int nNum = 0; nNum <= arrHex.Length-1; nNum++)
+            {
+                arrHex[nNum] = Convert.ToInt32(strBinPri[nNum] - '0');
+            }
+
+
+            for (int nNum = 0; nNum <= arrHex.Length - 1; nNum++)
+            {
+                try
+                {
+                    arrHex[nNum] = arrHex[nNum + nSec];
+                } catch (IndexOutOfRangeException) {
+                    arrHex[nNum] = 0;
+                }
+
+            }
+            strResult = string.Join("", arrHex);
+
+            SetBit(arrHex);
+            if (m_nMode == 1)
+            {
+                getBit(Convert.ToInt32(strResult, 2).ToString("X"));
+            }
+            else
+            {
+                getBit(Convert.ToInt32(strResult, 2).ToString());
+            }
+           
+            return Convert.ToInt32(strResult, 2);
         }
         private int Rsh_Opt(int nPri, int nSec)
-        {
-            int nResult = int.MinValue;
+        {  
+            
+            int[] arrHex = new int[16];
 
-            return nResult;
+            string strResult;
+            string strBinPri;
+
+            strBinPri = Convert.ToString(nPri, 2);
+            strBinPri = strBinPri.PadLeft(16, '0');
+
+            for (int nNum = 0; nNum < arrHex.Length; nNum++)
+            {
+                arrHex[nNum] = Convert.ToInt32(strBinPri[nNum]-'0');
+            }
+
+            
+                for (int nNum = arrHex.Length-1; nNum > 0; nNum--)
+                {
+                    try
+                    {
+                    arrHex[nNum ] = arrHex[nNum-nSec];
+                    }
+                    catch (IndexOutOfRangeException)
+                    {
+                    arrHex[nNum] = 0;
+                    }
+               
+                }
+
+            strResult = string.Join("", arrHex);
+
+            if (m_nMode == 1)
+            {
+                getBit(Convert.ToInt32(strResult, 2).ToString("X"));
+            }
+            else
+            {
+                getBit(Convert.ToInt32(strResult, 2).ToString());
+            }
+            SetBit(arrHex);
+
+            return Convert.ToInt32(strResult,2);
         }
 
-        private void button_HexClick(object sender, EventArgs e)
+        private int Not_Opt(int nSec)
+        {
+            string strResult;
+            string strBinPri;
+
+            int[] arrHex = new int[16];
+
+            strBinPri = Convert.ToString(nSec, 2);
+            strBinPri = strBinPri.PadLeft(16, '0');
+
+            for (int nNum = 0; nNum < arrHex.Length-1; nNum++)
+            {
+                arrHex[nNum] = Convert.ToInt32(strBinPri[nNum] - '0');
+            }
+
+            for(int nNum=0; nNum < arrHex.Length - 1;nNum++)
+            {
+                if (arrHex[nNum] == 0)
+                {
+                    arrHex[nNum] = 1;
+                }
+                else
+                {
+                    arrHex[nNum] = 0;
+                }
+            }
+            strResult = string.Join("", arrHex);
+
+            SetBit(arrHex);
+            if (m_nMode == 1)
+            {
+                getBit(Convert.ToInt32(strResult, 2).ToString("X"));
+            }
+            else
+            {
+                getBit(Convert.ToInt32(strResult, 2).ToString());
+            }
+
+            return Convert.ToInt32(strResult, 2);
+        }
+
+        private void button_HexClick(object sender, EventArgs e)//16진수 버튼 클릭(10진수 모드 On)
         {
             m_nMode = 1;
             button_A.Enabled = true;
@@ -532,7 +649,7 @@ namespace CalculateApp
             this.richTextBox_Number.Text = this.label_Hex.Text;
         }
 
-        private void button_DecClick(object sender, EventArgs e)
+        private void button_DecClick(object sender, EventArgs e) //10진수 버튼 클릭(10진수 모드 On)
         {
             m_nMode = 2;
             button_A.Enabled = false;
@@ -554,7 +671,7 @@ namespace CalculateApp
 
         }
 
-        private void Button_NumberClick(object sender, EventArgs e)
+        private void Button_NumberClick(object sender, EventArgs e) //계산기 버튼 누를시 실행
         {
             if (m_bCompleteFlag == true)
             {
@@ -590,9 +707,7 @@ namespace CalculateApp
 
                     this.richTextBox_Number.Text = m_strHexNumber.ToString();
                     this.label_Hex.Text = m_strHexNumber.ToString();
-
-
-                    
+          
                     if (m_nSnumber >= 1000 || m_nSnumber <= -1000)
                     {
                         this.label_Dec.Text = string.Format("{0:#,###}", m_nSnumber);
@@ -635,7 +750,7 @@ namespace CalculateApp
       
         }
 
-        public void button_OperateClick(object sender, EventArgs e)
+        public void button_OperateClick(object sender, EventArgs e) //연산자 버튼 클릭 한번 누르면 연산자 등록후 두번누르면 기존에 저장되있던 연산자 실행
         {
             Button button = (Button)sender;
 
@@ -730,18 +845,39 @@ namespace CalculateApp
 
             if (m_bEqualFlag == false)
             {
-                if (this.m_strOperate != "NOT")
+                if (m_nMode == 1)
                 {
-                    this.richTextBox_Memory.Text += m_nSnum + button.Text;
+                    if (this.m_strOperate != "NOT")
+                    {
+                        this.richTextBox_Memory.Text += m_nSnum.ToString("X") + button.Text;
+                    }
                 }
+                else
+                {
+                    if (this.m_strOperate != "NOT")
+                    {
+                        this.richTextBox_Memory.Text += m_nSnum + button.Text;
+                    }
+                }
+                
             }
             else
             {
-                if (this.m_strOperate != "NOT")
+                if (m_nMode == 1)
                 {
-                    this.richTextBox_Memory.Text += m_nSnum + m_strOperate;
+                    if (this.m_strOperate != "NOT")
+                    {
+                        this.richTextBox_Memory.Text += m_nSnum.ToString("X") + button.Text;
+                    }
                 }
-                
+                else
+                {
+                    if (this.m_strOperate != "NOT")
+                    {
+                        this.richTextBox_Memory.Text += m_nSnum + button.Text;
+                    }
+                }
+
                 m_bEqualFlag = false;
             }
 
@@ -824,7 +960,7 @@ namespace CalculateApp
                     break;
 
                 case "NOT":
-                    m_nRnum = ~m_nSnum;
+                    m_nRnum = Not_Opt(m_nSnum);
 
                     if (m_nRnum > short.MaxValue)
                     {
@@ -857,16 +993,14 @@ namespace CalculateApp
                     break;
            
                 case "<<":
-                    //m_nRnum = Lsh_Opt(m_nFnum, m_nSnum);
-                    m_nRnum = m_nFnum << m_nSnum;
+                    m_nRnum = Lsh_Opt(m_nFnum, m_nSnum);
                     if (m_nRnum > short.MaxValue)
                     {
                         m_nRnum = m_nRnum - (short.MaxValue - short.MinValue) - 1;
                     }
                     break;
                 case ">>":
-                    //m_nRnum = Rsh_Opt(m_nFnum, m_nSnum);
-                    m_nRnum = m_nFnum >> m_nSnum;
+                    m_nRnum = Rsh_Opt(m_nFnum, m_nSnum);
                     if (m_nRnum > short.MaxValue)
                     {
                         m_nRnum = m_nRnum - (short.MaxValue - short.MinValue) - 1;
@@ -885,8 +1019,7 @@ namespace CalculateApp
             {
                 getBit(m_nRnum.ToString());
             }
-            
-            
+           
             printResult();
             m_nFnum = m_nRnum;
             m_nSnum = int.MinValue;
@@ -894,7 +1027,7 @@ namespace CalculateApp
             this.m_bCompleteFlag = true;
         }
 
-        private void printResult()
+        private void printResult() //계산 결과문 출력
         {
             if (m_nMode == 1)
             {
@@ -926,9 +1059,8 @@ namespace CalculateApp
             }
         }
 
-        private void button_BackClick(object sender, EventArgs e)
+        private void button_BackClick(object sender, EventArgs e) //글자지우기
         {
-            string strNum;
             int nNum;
 
             if (richTextBox_Memory.Text != "0" && m_strOperate != "=" && richTextBox_Number.Text.Length > 0)
@@ -979,12 +1111,10 @@ namespace CalculateApp
             {
                 getBit(richTextBox_Number.Text);
             }
-            
 
-            
         }
 
-        private void Button_CClick(object sender, EventArgs e)
+        private void Button_CClick(object sender, EventArgs e) //계산기 데이터 삭제
         {
             this.richTextBox_Number.Text = "0";
             this.richTextBox_Memory.Text = "";
@@ -1022,7 +1152,7 @@ namespace CalculateApp
         }
 
 
-        private void button_PnClick(object sender, EventArgs e)
+        private void button_PnClick(object sender, EventArgs e) //양수 음수 변환
         {
             if (m_nNumber == int.MinValue)
             {
@@ -1030,24 +1160,32 @@ namespace CalculateApp
             }
             else
             {
-                m_nNumber = m_nNumber * (-1);
+                
+             m_nNumber = m_nNumber * (-1);
 
-                if (m_nMode == 1)
-                {
+             this.label_Hex.Text = m_nNumber.ToString("X");
+             this.label_Hex.Text = this.label_Hex.Text.PadLeft(8, '0');
+             this.label_Hex.Text = this.label_Hex.Text.Substring(4, 4);
 
-                }
-                else
-                {
-                    if (m_nNumber >= 1000 || m_nNumber <= -1000)
-                    {
-                        this.richTextBox_Number.Text = string.Format("{0:#,###}", m_nNumber);
-                    }
-                    else
-                    {
-                        this.richTextBox_Number.Text = m_nNumber.ToString();
-                    }
-                }
+                if (m_nNumber >= 1000 || m_nNumber <= -1000)
+             {
+                 this.richTextBox_Number.Text = string.Format("{0:#,###}", m_nNumber);
+                 this.label_Dec.Text=string.Format("{0:#,###}", m_nNumber);
+             }
+             else
+             {
+                 this.richTextBox_Number.Text = m_nNumber.ToString();
+                 this.label_Dec.Text = string.Format("{0:#,###}", m_nNumber);
+             }
 
+            if (m_nMode == 1)
+            {
+                getBit(m_nNumber.ToString("X"));
+            }
+            else
+            {
+                getBit(m_nNumber.ToString());
+            }
 
             }
         }
