@@ -214,7 +214,7 @@
             this.tabPage1.Controls.Add(this.flowLayoutPanel1);
             this.tabPage1.Location = new System.Drawing.Point(4, 28);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(733, 488);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "전체연산";
@@ -317,8 +317,9 @@
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(113, 62);
             this.button7.TabIndex = 11;
-            this.button7.Text = "산술시프트";
+            this.button7.Text = "논리";
             this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button_shiftClick);
             // 
             // button1
             // 
@@ -439,6 +440,7 @@
             // 
             // button_OpenParenthesis
             // 
+            this.button_OpenParenthesis.Enabled = false;
             this.button_OpenParenthesis.Font = new System.Drawing.Font("돋움", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button_OpenParenthesis.Location = new System.Drawing.Point(149, 69);
             this.button_OpenParenthesis.Name = "button_OpenParenthesis";
@@ -446,9 +448,11 @@
             this.button_OpenParenthesis.TabIndex = 6;
             this.button_OpenParenthesis.Text = "(";
             this.button_OpenParenthesis.UseVisualStyleBackColor = true;
+            this.button_OpenParenthesis.Click += new System.EventHandler(this.button_OperateClick);
             // 
             // button_CloseParenthesis
             // 
+            this.button_CloseParenthesis.Enabled = false;
             this.button_CloseParenthesis.Font = new System.Drawing.Font("돋움", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.button_CloseParenthesis.Location = new System.Drawing.Point(295, 69);
             this.button_CloseParenthesis.Name = "button_CloseParenthesis";
@@ -456,6 +460,7 @@
             this.button_CloseParenthesis.TabIndex = 7;
             this.button_CloseParenthesis.Text = ")";
             this.button_CloseParenthesis.UseVisualStyleBackColor = true;
+            this.button_CloseParenthesis.Click += new System.EventHandler(this.button_OperateClick);
             // 
             // button_Percent
             // 
@@ -737,7 +742,7 @@
             this.tabPage2.Controls.Add(this.tableLayoutPanel1);
             this.tabPage2.Location = new System.Drawing.Point(4, 28);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(733, 488);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "비트연산";
@@ -2115,6 +2120,8 @@
             // 
             // button_Hex
             // 
+            this.button_Hex.FlatAppearance.BorderColor = System.Drawing.Color.Blue;
+            this.button_Hex.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Hex.Location = new System.Drawing.Point(11, 268);
             this.button_Hex.Name = "button_Hex";
             this.button_Hex.Size = new System.Drawing.Size(74, 39);
@@ -2125,6 +2132,8 @@
             // 
             // button_Dec
             // 
+            this.button_Dec.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
+            this.button_Dec.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Dec.Location = new System.Drawing.Point(11, 332);
             this.button_Dec.Name = "button_Dec";
             this.button_Dec.Size = new System.Drawing.Size(74, 34);
@@ -2155,7 +2164,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(741, 912);
+            this.ClientSize = new System.Drawing.Size(737, 908);
+            this.ControlBox = false;
             this.Controls.Add(this.label_Dec);
             this.Controls.Add(this.label_Hex);
             this.Controls.Add(this.button_Dec);
@@ -2165,6 +2175,7 @@
             this.Controls.Add(this.richTextBox_Number);
             this.Controls.Add(this.richTextBox_Memory);
             this.Controls.Add(this.tabControl1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximumSize = new System.Drawing.Size(763, 968);
             this.MinimumSize = new System.Drawing.Size(763, 968);
             this.Name = "Form_Sub";

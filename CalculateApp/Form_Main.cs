@@ -12,46 +12,34 @@ namespace CalculateApp
 {
     public partial class Form_Main : Form
     {
-        //int m_nNumber;
-        //string m_strNumber;
-        //int[] m_arrNumber;
-        //List<int> m_lstNumber;
-        //List<string> m_lstNumber2;
-        //bool m_bNumber;
-
-
-
         Boolean m_bOperatorFlag = false; //연산자 사용 유무
         Boolean m_bEqualFlag = false; //등호연산자인지 일반 연산자로 계산했는지 구분
         Boolean m_bCompleteFlag = false; //계산 완료인지 아닌지 구분
 
         string m_strNumber; //천의 자리 표시를 위한 문자열
-        decimal m_dNumber=decimal.MinValue; //계산기 값 받아옴
-        decimal m_dFnum= decimal.MinValue; //첫번째 피연산자
-        decimal m_dSnum= decimal.MinValue; //두번째 피연산자
-        decimal m_dRnum= decimal.MinValue; //결과값 저장
-        string m_strOperate=string.Empty; //계산 문자열 저장
+        string m_strOperate = string.Empty; //계산 문자열 저장
 
+        decimal m_nNumber=decimal.MinValue; //계산기 값 받아옴
+        decimal m_nFnum= decimal.MinValue; //첫번째 피연산자
+        decimal m_nSnum= decimal.MinValue; //두번째 피연산자
+        decimal m_nRnum= decimal.MinValue; //결과값 저장
+        
         public Form_Main()
         {
-            //List<string> lstNumber;
             InitializeComponent();  
             Initialize();
         }
-
-
 
         public void Initialize() //변수 초기화
         {
             this.richTextBox_Number.Text = "0";
             this.richTextBox_Memory.Text = "";
             m_strNumber = "";
-            m_dNumber = decimal.MinValue;
-            m_dFnum = decimal.MinValue;
-            m_dSnum = decimal.MinValue;
-            m_dRnum = decimal.MinValue;
+            m_nNumber = decimal.MinValue;
+            m_nFnum = decimal.MinValue;
+            m_nSnum = decimal.MinValue;
+            m_nRnum = decimal.MinValue;
         }
-     
 
         private void button_Erase_Click(object sender, EventArgs e) //뒤로가기 버튼 클릭시 한자리씩 지움
         {
@@ -59,29 +47,34 @@ namespace CalculateApp
             {                
                 richTextBox_Number.Text = richTextBox_Number.Text.Substring(0, richTextBox_Number.Text.Length - 1);
             }
+            try
+            {
+                m_nNumber = Convert.ToInt32(this.richTextBox_Number.Text.Replace(",", ""));
+            }
+            catch (FormatException)
+            {
+                m_nNumber = 0;
+            }            
         }
-
-       
 
         private void button_Pn_Click(object sender, EventArgs e) // 양수 음수 변환 양수 일대는 음수로 음수일때는 양수로 변환
         {
-            if (m_dNumber == decimal.MinValue)
+            if (m_nNumber == decimal.MinValue)
             {
                 return;
             }
             else
             {
-                m_dNumber = m_dNumber * (-1);
+                m_nNumber = m_nNumber * (-1);
 
-                if (m_dNumber >= 1000 || m_dNumber <= -1000)
+                if (m_nNumber >= 1000 || m_nNumber <= -1000)
                 {
-                    this.richTextBox_Number.Text = string.Format("{0:#,###}", m_dNumber);
+                    this.richTextBox_Number.Text = string.Format("{0:#,###}", m_nNumber);
                 }
                 else
                 {
-                    this.richTextBox_Number.Text = m_dNumber.ToString();
+                    this.richTextBox_Number.Text = m_nNumber.ToString();
                 }
-
             }
         }
 
@@ -92,7 +85,6 @@ namespace CalculateApp
             if (!this.richTextBox_Number.Text.Contains("."))
             {
                 this.richTextBox_Number.Text += button.Text;
-                
             }
         }
 
@@ -105,81 +97,85 @@ namespace CalculateApp
                 return;
             }
 
-            m_dSnum = decimal.Parse(richTextBox_Number.Text);
+            m_nSnum = decimal.Parse(richTextBox_Number.Text);
 
             if (m_bEqualFlag == false)
             {
-                this.richTextBox_Memory.Text += m_dSnum + button.Text;
+                this.richTextBox_Memory.Text += m_nSnum + button.Text;
             }
             else
             {
-                this.richTextBox_Memory.Text += m_dSnum + m_strOperate;
+                this.richTextBox_Memory.Text += m_nSnum + m_strOperate;
                 m_bEqualFlag = false;
             }
 
             switch (this.m_strOperate)
             {
                 case "+":                  
-                    m_dRnum = m_dFnum + m_dSnum;
-                    if (m_dRnum >= 1000)
+                    m_nRnum = m_nFnum + m_nSnum;
+                    if (m_nRnum >= 1000)
                     {
-                        this.richTextBox_Number.Text = string.Format("{0:#,###}", m_dRnum);
+                        this.richTextBox_Number.Text = string.Format("{0:#,###}", m_nRnum);
                     }
                     else
                     {
-                        this.richTextBox_Number.Text = m_dRnum.ToString();
+                        this.richTextBox_Number.Text = m_nRnum.ToString();
                     }
-                    break;    
+                    break;  
+                    
                 case "-":
                     
-                    m_dRnum = m_dFnum - m_dSnum;
-                    if (m_dRnum >= 1000)
+                    m_nRnum = m_nFnum - m_nSnum;
+                    if (m_nRnum >= 1000)
                     {
-                        this.richTextBox_Number.Text = string.Format("{0:#,###}", m_dRnum);
+                        this.richTextBox_Number.Text = string.Format("{0:#,###}", m_nRnum);
                     }
                     else
                     {
-                        this.richTextBox_Number.Text = m_dRnum.ToString();
+                        this.richTextBox_Number.Text = m_nRnum.ToString();
                     }
                     break;
+
                 case "X":
                     
-                    m_dRnum = m_dFnum * m_dSnum;
-                    if (m_dRnum >= 1000)
+                    m_nRnum = m_nFnum * m_nSnum;
+                    if (m_nRnum >= 1000)
                     {
-                        this.richTextBox_Number.Text = string.Format("{0:#,###}", m_dRnum);
+                        this.richTextBox_Number.Text = string.Format("{0:#,###}", m_nRnum);
                     }
                     else
                     {
-                        this.richTextBox_Number.Text = m_dRnum.ToString();
+                        this.richTextBox_Number.Text = m_nRnum.ToString();
                     }
                     break;
+
                 case "/":
                    
-                    if (m_dSnum==0)
+                    if (m_nSnum==0)
                     {
                         this.richTextBox_Number.Text = "0으로나눌수없습니다."; return;
                     }
                     else
                     {
-                        m_dRnum = m_dFnum / m_dSnum;
+                        m_nRnum = m_nFnum / m_nSnum;
                     }
                        
-                    if (m_dRnum >= 1000)
+                    if (m_nRnum >= 1000)
                     {
-                        this.richTextBox_Number.Text = string.Format("{0:#,###}", m_dRnum);
+                        this.richTextBox_Number.Text = string.Format("{0:#,###}", m_nRnum);
                     }
                     else
                     {
-                        this.richTextBox_Number.Text = m_dRnum.ToString();
+                        this.richTextBox_Number.Text = m_nRnum.ToString();
                     }
                     break;
+
                 default:
                     break;
 
             }            
-            m_dFnum = m_dRnum;
-            m_dSnum = decimal.MinValue;
+            m_nFnum = m_nRnum;
+            m_nSnum = decimal.MinValue;
             m_strNumber = string.Empty;
             this.m_bCompleteFlag = true;
             
@@ -190,10 +186,10 @@ namespace CalculateApp
             this.richTextBox_Number.Text = "0";
             this.richTextBox_Memory.Text = "";
             m_strNumber = "";
-            m_dNumber = decimal.MinValue;
-            m_dFnum = decimal.MinValue;
-            m_dSnum = decimal.MinValue;
-            m_dRnum = decimal.MinValue;
+            m_nNumber = decimal.MinValue;
+            m_nFnum = decimal.MinValue;
+            m_nSnum = decimal.MinValue;
+            m_nRnum = decimal.MinValue;
             m_strOperate = string.Empty;
             this.m_bOperatorFlag = false;
             this.m_bCompleteFlag = false;
@@ -203,7 +199,7 @@ namespace CalculateApp
         {
             this.richTextBox_Number.Text = "0";
             m_strNumber = "";
-            m_dNumber = decimal.MinValue;
+            m_nNumber = decimal.MinValue;
             m_strOperate = string.Empty;
             this.m_bOperatorFlag = false;
             this.m_bCompleteFlag = false;
@@ -213,12 +209,12 @@ namespace CalculateApp
         {
             Button button = (Button)sender;
 
-            if (m_dFnum != decimal.MinValue &&m_dNumber!=decimal.MinValue&& m_strNumber != string.Empty  && m_bCompleteFlag == false)
+            if (m_nFnum != decimal.MinValue &&m_nNumber!=decimal.MinValue&& m_strNumber != string.Empty  && m_bCompleteFlag == false)
             {           
                 m_bEqualFlag = true;
                 button_Equal.PerformClick();
                 this.m_strOperate = button.Text;
-                this.richTextBox_Memory.Text = m_dFnum + button.Text;          
+                this.richTextBox_Memory.Text = m_nFnum + button.Text;          
                 this.m_bOperatorFlag = true;
             }
             else
@@ -227,21 +223,21 @@ namespace CalculateApp
                 {
                     this.richTextBox_Memory.Text = "0" + button.Text;
                     this.m_strOperate = button.Text;
-                    m_dFnum = 0;
+                    m_nFnum = 0;
                     return;
                 }
                 if (this.m_bCompleteFlag == true)
                 {
                     this.m_strOperate = button.Text;
-                    this.richTextBox_Memory.Text = m_dFnum + button.Text;
+                    this.richTextBox_Memory.Text = m_nFnum + button.Text;
                     this.m_bOperatorFlag = true;
                     return;
                 }
                 this.m_strOperate = button.Text;
   
                 m_strNumber = string.Empty;
-                m_dFnum = m_dNumber;              
-                this.richTextBox_Memory.Text = m_dFnum + button.Text;
+                m_nFnum = m_nNumber;              
+                this.richTextBox_Memory.Text = m_nFnum + button.Text;
                 this.m_bOperatorFlag = true;              
             }
         }
@@ -252,20 +248,21 @@ namespace CalculateApp
             {
                 m_bCompleteFlag = false;
             }
+
             if (this.richTextBox_Number.Text == "0" || m_bOperatorFlag) this.richTextBox_Number.Clear();
             Button button = (Button)sender;
             m_bOperatorFlag = false;
 
             m_strNumber = this.richTextBox_Number.Text+button.Text;
-            m_dNumber = decimal.Parse(m_strNumber);
+            m_nNumber = decimal.Parse(m_strNumber);
 
-            if (m_dNumber >= 1000)
+            if (m_nNumber >= 1000)
             {
-              this.richTextBox_Number.Text = string.Format("{0:#,###}", m_dNumber);
+              this.richTextBox_Number.Text = string.Format("{0:#,###}", m_nNumber);
             }
             else
             {
-              this.richTextBox_Number.Text = m_dNumber.ToString();
+              this.richTextBox_Number.Text = m_nNumber.ToString();
             }
         }
 
@@ -273,8 +270,7 @@ namespace CalculateApp
         {
             this.Visible = false ;
             Form_Sub Subform = new Form_Sub();
-            Subform.Show();
-            
+            Subform.Show();    
         }
 
         private void Form_Main_FormClosing(object sender, FormClosingEventArgs e)
