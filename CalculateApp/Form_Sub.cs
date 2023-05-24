@@ -167,10 +167,12 @@ namespace CalculateApp
             else if((strHex1=="0")&&(strHex2=="0")&&(strHex3!="0"))
             {
                 strHex =  strHex3 + strHex4;
-            }else if ((strHex1 == "0") && (strHex2 == "0") && (strHex3 == "0")&&(strHex4!="0"))
+            }
+            else if ((strHex1 == "0") && (strHex2 == "0") && (strHex3 == "0")&&(strHex4!="0"))
             {
                 strHex = strHex4;
-            }else if((strHex1 == "0") && (strHex2 == "0") && (strHex3 == "0") && (strHex4 == "0"))
+            }
+            else if((strHex1 == "0") && (strHex2 == "0") && (strHex3 == "0") && (strHex4 == "0"))
             {
                 strHex = "0";
             }
@@ -249,8 +251,21 @@ namespace CalculateApp
                     break;
             }
         }
+
+        private string getBinFromHex(string strHex,int nLength) //16진수로부터 2진수 반환받는 함수
+        {
+            string strBin;
+            int nHex;
+
+            strHex = strHex.ToString().Substring(strHex.ToString().Length - nLength, 1);
+            nHex = Convert.ToInt32(strHex, 16);
+            strBin = Convert.ToString(nHex, 2);
+            strBin = strBin.PadLeft(4, '0');
+
+            return strBin;
+        }
        
-        private void getBit(string strNum)
+        private void getBit(string strNum) //결과값 16진수를 이용하여 전체 비트 계산기 적용
         {
             int[] arrBit = new int[4];
             int[] arrBit1 = new int[4];
@@ -258,10 +273,7 @@ namespace CalculateApp
             int[] arrBit3 = new int[4];
             int[] arrBit4 = new int[4];
 
-            int ntemp1;
-            int ntemp2;
-            int ntemp3;
-            int ntemp4;
+            int ntemp;
             int nDec;
 
             string strHex;
@@ -269,11 +281,6 @@ namespace CalculateApp
             string strHex2;
             string strHex3;
             string strHex4;
-
-            string nHex1;
-            string nHex2;
-            string nHex3;
-            string nHex4;
 
             nDec = Convert.ToInt32(strNum, 16);
 
@@ -289,80 +296,47 @@ namespace CalculateApp
             
             if (strHex.Length == 1)
             {
-                ntemp4 = Convert.ToInt32(strHex, 16);
-                nHex4 = Convert.ToString(ntemp4, 2);
-                nHex4 = nHex4.PadLeft(4, '0');
+                ntemp = Convert.ToInt32(strHex, 16);
+                strHex4 = Convert.ToString(ntemp, 2);
+                strHex4 = strHex4.PadLeft(4, '0');
 
-                SetByte(1, nHex4);
+                SetByte(1, strHex4);
                 SetByte(2, "0000");
                 SetByte(3, "0000");
                 SetByte(4, "0000");
             }
             else if (strHex.Length == 2)
             {
-                strHex4 = strHex.ToString().Substring(strHex.ToString().Length - 1, 1);
-                ntemp4 = Convert.ToInt32(strHex4, 16);
-                nHex4 = Convert.ToString(ntemp4, 2);
-                nHex4 = nHex4.PadLeft(4, '0');
+                strHex4 = getBinFromHex(strHex, 1);
+                strHex3 = getBinFromHex(strHex, 2);
 
-                strHex3 = strHex.ToString().Substring(strHex.ToString().Length - 2, 1);
-                ntemp3 = Convert.ToInt32(strHex3, 16);
-                nHex3 = Convert.ToString(ntemp3, 2);
-                nHex3 = nHex3.PadLeft(4, '0');
-
-                SetByte(1, nHex4);
-                SetByte(2, nHex3);
+                SetByte(1, strHex4);
+                SetByte(2, strHex3);
                 SetByte(3, "0000");
                 SetByte(4, "0000");
             }
             else if (strHex.Length == 3)
             {
-                strHex4 = strHex.ToString().Substring(strHex.ToString().Length - 1, 1);
-                ntemp4 = Convert.ToInt32(strHex4, 16);
-                nHex4 = Convert.ToString(ntemp4, 2);
-                nHex4 = nHex4.PadLeft(4, '0');
+                strHex4 = getBinFromHex(strHex, 1);
+                strHex3 = getBinFromHex(strHex, 2);
+                strHex2 = getBinFromHex(strHex, 3);
 
-                strHex3 = strHex.ToString().Substring(strHex.ToString().Length - 2, 1);
-                ntemp3 = Convert.ToInt32(strHex3, 16);
-                nHex3 = Convert.ToString(ntemp3, 2);
-                nHex3 = nHex3.PadLeft(4, '0');
-
-                strHex2 = strHex.ToString().Substring(strHex.ToString().Length - 3, 1);
-                ntemp2 = Convert.ToInt32(strHex2, 16);
-                nHex2 = Convert.ToString(ntemp2, 2);
-                nHex2 = nHex2.PadLeft(4, '0');
-
-                SetByte(1, nHex4);
-                SetByte(2, nHex3);
-                SetByte(3, nHex2);
+                SetByte(1, strHex4);
+                SetByte(2, strHex3);
+                SetByte(3, strHex2);
                 SetByte(4, "0000");
             }
             else if (strHex.Length == 4)
-            {
-                strHex4 = strHex.ToString().Substring(strHex.ToString().Length - 1, 1);
-                ntemp4 = Convert.ToInt32(strHex4, 16);
-                nHex4 = Convert.ToString(ntemp4, 2);
-                nHex4 = nHex4.PadLeft(4, '0');
+            {               
+                strHex4 = getBinFromHex(strHex, 1);
+                strHex3 = getBinFromHex(strHex, 2);
+                strHex2 = getBinFromHex(strHex, 3);
+                strHex1 = getBinFromHex(strHex, 4);
 
-                strHex3 = strHex.ToString().Substring(strHex.ToString().Length - 2, 1);
-                ntemp3 = Convert.ToInt32(strHex3, 16);
-                nHex3 = Convert.ToString(ntemp3, 2);
-                nHex3 = nHex3.PadLeft(4, '0');
-
-                strHex2 = strHex.ToString().Substring(strHex.ToString().Length - 3, 1);
-                ntemp2 = Convert.ToInt32(strHex2, 16);
-                nHex2 = Convert.ToString(ntemp2, 2);
-                nHex2 = nHex2.PadLeft(4, '0');
-
-                strHex1 = strHex.ToString().Substring(strHex.ToString().Length - 4, 1);
-                ntemp1 = Convert.ToInt32(strHex1, 16);
-                nHex1 = Convert.ToString(ntemp1, 2);
-                nHex1 = nHex1.PadLeft(4, '0');
-
-                SetByte(1, nHex4);
-                SetByte(2, nHex3);
-                SetByte(3, nHex2);
-                SetByte(4, nHex1);
+                SetByte(1, strHex4);
+                SetByte(2, strHex3);
+                SetByte(3, strHex2);
+                SetByte(4, strHex1);
             }
             else
             {
@@ -371,7 +345,7 @@ namespace CalculateApp
            
         }
 
-        private int Lsh_Opt(int nPri, int nSec)
+        private int Lsh_Opt(int nPri, int nSec) //좌측 쉬프트 계산
         {
             string strResult;
             string strBinPri;
@@ -424,12 +398,13 @@ namespace CalculateApp
             {
                 strResult = strResult.Substring(4, 4);
             }
+
             getBit(Convert.ToInt32(strResult, 2).ToString("X"));
             SetBit(arrHex);
 
             return Convert.ToInt32(strResult, 2);
         }
-        private int Rsh_Opt(int nPri, int nSec)
+        private int Rsh_Opt(int nPri, int nSec) //우측 쉬프트 계산
         {  
             
             int[] arrHex = new int[16];
@@ -478,7 +453,6 @@ namespace CalculateApp
             }
 
             strResult = string.Join("", arrHex);
-
             nHex = Convert.ToInt32(strResult, 2);
 
             if (nHex < 0)
@@ -492,7 +466,7 @@ namespace CalculateApp
             return Convert.ToInt32(strResult,2);
         }
 
-        private int Not_Opt(int nSec)
+        private int Not_Opt(int nSec) //not계산(비트 0으로 된부분 1, 1로된 부분 0으로 변경)
         {
             string strResult;
             string strBinPri;
@@ -587,11 +561,6 @@ namespace CalculateApp
             m_bOperatorFlag = false;
             m_strNumber = this.richTextBox_Number.Text + button.Text;
 
-            if (m_strNumber.Length >= 6)
-            {
-                return;
-            }
-
             switch (m_etype)
             {
                 case eTYPE.HEX:
@@ -628,7 +597,7 @@ namespace CalculateApp
 
                 case eTYPE.DECIMAL:
 
-                    m_nNumber = Convert.ToInt32(m_strNumber);
+                    m_nNumber = Convert.ToInt32(m_strNumber.Replace(",", ""));
 
                     if (m_nNumber > short.MaxValue)
                     {
@@ -769,8 +738,7 @@ namespace CalculateApp
             }
             else{
                 m_nSnum = int.Parse(richTextBox_Number.Text.Replace(",",""));
-            }
-            
+            }            
 
             if (m_bEqualFlag == false)
             {
@@ -1070,25 +1038,10 @@ namespace CalculateApp
             this.label_Dec .Text= string.Empty;
             this.label_Hex.Text = string.Empty;
 
-            button_BitZero.Text = "0";
-            button_BitOne.Text = "0";
-            button_BitTwo.Text = "0";
-            button_BitThree.Text = "0";
-
-            button_BitFour.Text = "0";
-            button_BitFive.Text = "0";
-            button_BitSix.Text = "0";
-            button_BitSeven.Text = "0";
-
-            button_BitEight.Text = "0";
-            button_BitNine.Text = "0";
-            button_BitTen.Text = "0";
-            button_BitEleven.Text = "0";
-
-            button_BitTwelve.Text = "0";
-            button_BitThirteen.Text = "0";
-            button_BitFourteen.Text = "0";
-            button_BitFifteen.Text = "0";
+            SetByte(1, "0000");
+            SetByte(2, "0000");
+            SetByte(3, "0000");
+            SetByte(4, "0000");           
         }
 
         private void button_PnClick(object sender, EventArgs e) //양수 음수 변환
@@ -1124,15 +1077,6 @@ namespace CalculateApp
                 }
 
                 getBit(m_nNumber.ToString("X"));
-
-                //if (m_etype==eTYPE.HEX)
-                //{
-                //    getBit(this.label_Hex.Text);
-                //}
-                //else
-                //{
-                //    getBit(m_nNumber.ToString("X"));
-                //}
             }
         }
 
